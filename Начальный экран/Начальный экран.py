@@ -21,8 +21,8 @@ def load_image(name, colorkey=None):
 
 
 def start_screen():
-    intro_text = ["Mario 0.1", "", "", "", "", "", "",
-                  "Правила игры",
+    intro_text = ["Mario 0.1", "", "", "", "", "", "", "", "",
+                  "", "", "", "Настройки", "", "", "Правила игры",
                   "Если в правилах несколько строк,",
                   "приходится выводить их построчно"]
 
@@ -50,6 +50,11 @@ def start_screen():
         text_coord += intro_rect.height
         screen.blit(string_rendered_shadow, intro_rect.move(1, 1))
         screen.blit(string_rendered, intro_rect)
+        #  находим координаты верхнего левого угла кнопки 'Настройки'
+        #  в будущем может понадобиться
+        print(intro_rect.topleft, line == 'Настройки')
+        if line == 'Настройки':
+            settings_rect = intro_rect
     pygame.display.flip()
     while True:
         for event in pygame.event.get():
@@ -60,7 +65,10 @@ def start_screen():
                     return
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    #  здесь добавим проверку на нажатие кнопки настроек
+                    touching = settings_rect.collidepoint(event.pos)
+                    if touching:
+                        # настройки скоро будут
+                        print('Перешли в настройки')
                     pass
         clock.tick(FPS)
 
