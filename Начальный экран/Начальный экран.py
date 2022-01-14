@@ -1,5 +1,7 @@
 import pygame
 from os import path
+from data.board import Board
+
 
 SIZE = WIGHT, HEIGHT = 800, 600
 FPS = 144
@@ -25,7 +27,7 @@ def start_screen():
                   "", "", "Настройки", "", "", "Правила игры",
                   "Чтобы продолжить нажмите Enter"]
 
-    fon = pygame.transform.scale(load_image('fon.jpg'), (WIGHT, HEIGHT))
+    fon = pygame.transform.scale(load_image('fon_start_screen.jpg'), (WIGHT, HEIGHT))
     screen.blit(fon, (0, 0))
     font = pygame.font.Font(None, 30)
     font_of_title = pygame.font.Font(None, 60)
@@ -75,14 +77,40 @@ def start_screen():
 
 pygame.init()
 screen = pygame.display.set_mode(SIZE)
+
 clock = pygame.time.Clock()
 start_screen()
+#  создание сетки для ориентации
+board = Board(20, 15)
+#  ставим фон
+fon = load_image('fon.png')
+screen.blit(fon, (0, 0))
+#  отрисовываем землю
+GRAUND = pygame.Rect(0, 400, WIGHT, 200)
+pygame.draw.rect(screen, 'brown', GRAUND)
+#  рисуем персонажа
+pos_of_player = [320, 320]
+player_image = pygame.transform.scale(load_image('Player.png'), (40, 80))
+screen.blit(player_image, pos_of_player)
+
 running = True
 while running:
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_d:
+                pygame.draw.rect(screen, (107, 136, 254), pygame.Rect(pos_of_player, (40, 80)))
+                pos_of_player[0] += 40
+                screen.blit(player_image, pos_of_player)
+            elif event.key == pygame.K_a:
+                pygame.draw.rect(screen, '#6b88fe', pygame.Rect(pos_of_player, (40, 80)))
+                pos_of_player[0] -= 40
+                screen.blit(player_image, pos_of_player)
+        #  отрисовываем сетку для ориентации, если нужно
+    board.set_view(0, 0, 40)
+    board.render(screen)
     pygame.display.flip()
     clock.tick(FPS)
 pygame.quit()
