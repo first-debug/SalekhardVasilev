@@ -1,7 +1,7 @@
 import pygame
 from os import path
 
-SIZE = WIDTH, HEIGHT = 700, 650
+SIZE = WIGHT, HEIGHT = 800, 600
 FPS = 144
 
 
@@ -22,11 +22,10 @@ def load_image(name, colorkey=None):
 
 def start_screen():
     intro_text = ["Mario 0.1", "", "", "", "", "", "", "", "",
-                  "", "", "", "Настройки", "", "", "Правила игры",
-                  "Если в правилах несколько строк,",
-                  "приходится выводить их построчно"]
+                  "", "", "Настройки", "", "", "Правила игры",
+                  "Чтобы продолжить нажмите Enter"]
 
-    fon = pygame.transform.scale(load_image('fon.jpg'), (WIDTH, HEIGHT))
+    fon = pygame.transform.scale(load_image('fon.jpg'), (WIGHT, HEIGHT))
     screen.blit(fon, (0, 0))
     font = pygame.font.Font(None, 30)
     font_of_title = pygame.font.Font(None, 60)
@@ -62,6 +61,7 @@ def start_screen():
                 pygame.quit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                    print('Перешли к игре')
                     return
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
